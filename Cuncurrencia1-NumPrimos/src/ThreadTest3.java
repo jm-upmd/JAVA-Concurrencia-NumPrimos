@@ -16,7 +16,7 @@ public class ThreadTest3 {
     
     private final static int MAX = 50_000_000;
     private final static int MAX_THREADS = 50;
-    static int totalPrimes;
+    static int totalPrimos;
 
 
     /**
@@ -28,7 +28,7 @@ public class ThreadTest3 {
     private static class CountPrimesThread extends Thread {
         int id;  // An id number for this thread; specified in the constructor.
         int desde,hasta; // Intervalo de numeros para calcular núm. de primos
-        int count;
+        
         public CountPrimesThread(int id, int desde, int hasta) {
         	this.id = id;
         	this.desde = desde;
@@ -36,7 +36,7 @@ public class ThreadTest3 {
         }
         public void run() {
             long startTime = System.currentTimeMillis();
-            
+            int count;
             count = countPrimes(desde,hasta);
             
             // Lamada a metodo sincronizado 
@@ -69,14 +69,12 @@ public class ThreadTest3 {
         System.out.println("\nCreando " + numberOfThreads + " contador-primos hilos...");
         CountPrimesThread[] worker = new CountPrimesThread[numberOfThreads];
         
+        // **Reparte los numeros entro los threads y al ultimo le asigna el resto si los hay
         int first = 2;  // Primer valor del rango
         int numsPerThread = MAX/numberOfThreads;  // Números en cada hilo
         int rest = MAX % numberOfThreads;  // Resto de hilos. Se añadirán al último hilo.
         int last;
-        
-        
-        // Reparte los numeros entro los threads y al ultimo le asigna el resto si los hay
-        
+          
         Long time = System.currentTimeMillis();
         
         for (int i = 0; i < numberOfThreads; i++) {
@@ -114,7 +112,7 @@ public class ThreadTest3 {
         System.out.println("Ejecución finalizada.");
        
        
-         System.out.println("Total primos: " + totalPrimes);
+         System.out.println("Total primos: " + totalPrimos);
 
          System.out.println("Tiempo(sg): " + ((System.currentTimeMillis() -time ) / 1_000.0));
       
@@ -123,7 +121,7 @@ public class ThreadTest3 {
     
     // Método sincronizado. Asegura que no es accedido simultaneamente por dos threads.
     synchronized static private void sumaTotal(int n) {
-    	totalPrimes+=n;
+    	totalPrimos+=n;
     }
 
 

@@ -14,13 +14,7 @@ public class ThreadTest2 {
     private final static int MAX_THREADS = 50;
 
 
-    /**
-     * Programa que arranca varios threads (hilos), cada uno de ellos calcula
-     * el numero de primos comprendidos en un rango, cuyo tamaño es igual para todos los threads.  
-     * El usuario especifa el número de threads a utilizar.  
-     * El objetivo es comprobar que a mayor número de hilos el tiempo de compunto total
-     * es menor.
-     */
+ 
     private static class CountPrimesThread extends Thread {
         int id;  // An id number for this thread; specified in the constructor.
         int desde,hasta; // Intervalo de numeros para calcular núm. de primos
@@ -67,14 +61,14 @@ public class ThreadTest2 {
         System.out.println("\nCreando " + numberOfThreads + " contador-primos hilos...");
         CountPrimesThread[] worker = new CountPrimesThread[numberOfThreads];
         
+        // **Reparte los numeros entro los threads y al ultimo le asigna el resto si los hay
+
         int first = 2;  // Primer valor del rango
         int numsPerThread = MAX/numberOfThreads;  // Números en cada hilo
         int rest = MAX % numberOfThreads;  // Resto de hilos. Se añadirán al último hilo.
         int last;
         
-        
-        // reparte los numeros entro los threads y al ultimo le asigna el resto si los hay
-        
+                
         Long time = System.currentTimeMillis();
         
         for (int i = 0; i < numberOfThreads; i++) {

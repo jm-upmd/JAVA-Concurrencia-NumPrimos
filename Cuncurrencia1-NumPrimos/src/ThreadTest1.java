@@ -5,19 +5,17 @@ import java.util.Scanner;
 /**
 * Un programa que inicia varios subprocesos, cada uno de los cuales realiza el
 * mismo cálculo. El usuario especifica el número de subprocesos.
-* El objetivo es ver que los hilos terminan en un orden indeterminado.
+* El objetivo es ver que los hilos terminan en un orden indeterminado y que la
+* gestión de los hilos invierte tiempo adicional al propio calculo.
 */
 
 public class ThreadTest1 {
     
     private final static int MAX = 5_000_000;
+    private final static int MAX_THREADS = 25;
 
 
-    /* Cuando se ejecute un hilo que pertenece a esta clase, contará el
-    * número de primos entre 2 y MAX. Imprimirá el resultado
-    * a la salida estándar, junto con su número de identificación y el tiempo transcurrido
-    * entre el inicio y el final del cálculo.
-    */
+
     
     private static class CountPrimesThread extends Thread {
         int id;  // An id number for this thread; specified in the constructor.
@@ -28,33 +26,34 @@ public class ThreadTest1 {
             long startTime = System.currentTimeMillis();
             int count = countPrimes(2,MAX);
             long elapsedTime = System.currentTimeMillis() - startTime;
-            System.out.println("Thread " + id + " counted " + 
-                    count + " primes in " + (elapsedTime/1000.0) + " seconds.");
+            System.out.println("Thread " + id + " cuenta " + 
+                    count + " primos en " + (elapsedTime/1000.0) + " segundos.");
         }
     }
 
 
     /**
-    * Inicie varios CountPrimesThreads. El número de subprocesos, entre 1 y 25,
+    * Inicia varios CountPrimesThreads. El número de subprocesos, entre 1 y 25,
     * lo especifica el usuario.
     */
     
     public static void main(String[] args) {
+     	
     	Scanner sc = new Scanner(System.in);
         int numberOfThreads = 0;
         while (numberOfThreads < 1 || numberOfThreads > 25) {
-            System.out.print("How many threads do you want to use  (from 1 to 25) ?  ");
+            System.out.print("¿Cuantos threads quieres usar  (de 1 a " + MAX_THREADS + ") ?  ");
             numberOfThreads = sc.nextInt();
             if (numberOfThreads < 1 || numberOfThreads > 25)
-                System.out.println("Please enter a number between 1 and 25 !");
+                System.out.println("Por favor escribe un número entre 1 y" + MAX_THREADS + "!");
         }
-        System.out.println("\nCreating " + numberOfThreads + " prime-counting threads...");
+        System.out.println("\nCreando " + numberOfThreads + " threads cuenta-primos...");
         CountPrimesThread[] worker = new CountPrimesThread[numberOfThreads];
         for (int i = 0; i < numberOfThreads; i++)
             worker[i] = new CountPrimesThread( i );
         for (int i = 0; i < numberOfThreads; i++)
             worker[i].start();
-        System.out.println("Threads have been created and started.");
+        System.out.println("Los threads han sido creados y arrancados");
     }
 
 
