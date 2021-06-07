@@ -7,6 +7,10 @@ import java.util.Scanner;
  * El usuario especifa el número de threads a utilizar.  
  * El objetivo es comprobar que a mayor número de hilos el tiempo de compunto total
  * es menor.
+ * En esta versión no se guarda dentro del objeto de cada thread l acuenta de primos en
+ * la variable count, sino que se llama a un método sumaTotal(int n) sincronizado que se 
+ * encarga de ir acumulando la cuetna de cada thread.
+ * 
  */
 public class ThreadTest3 {
     
